@@ -1,0 +1,139 @@
+\documentclass[12pt]{amsart} 
+\usepackage{amsfonts}
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{pgf,tikz,tikz-cd}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\usepackage{lipsum}
+\usepackage{dsfont}
+\usepackage{stmaryrd}
+
+%\graphicspath{ {./diagrams/} }
+
+\input{./latex-preamble/cm-preamble.tex}
+
+\newcommand{\Tot}{\mb{Tot}}
+
+\newtheorem*{lemma}{Lemma}
+
+\begin{document}
+
+{Weibel, \textit{An introduction to homological algebra}} \hfill {7-15-2026}
+
+\bigskip\bigskip
+
+\begin{center}
+
+{\sc Chapter 1}
+
+\end{center}
+
+\begin{center}
+
+  {Noah Parker} 
+    
+\end{center}
+
+\bigskip
+
+\begin{enumerate}
+	\item[1.2.5.] {
+      Let $C$ be a bounded complex with acylic rows or acyclic columns. 
+      Show that $\Tot(C)$ is acyclic.
+    }
+\end{enumerate}
+
+\begin{proof}
+  Without loss of generality, we suppose that $C$ has acyclic rows, i.e. $\ker d^h=\im d^h$.
+  It suffices to show that $\im(d^h+d^v)$ satisfies the universal property of $\ker(d^h+d^v)$.
+  Now, let $f:E\to \Tot(C)_n$ be a morphism such that
+  \[
+    \begin{tikzcd}
+      E\ar[r,"f"]\ar[rr,bend right=20,"0"']&\Tot (C)_n\ar[r,"d^h+d^v"]&\Tot(C)_{n-1}
+    \end{tikzcd}
+  \] 
+  commutes.
+  That is,
+  \[
+    d^hf+d^vf=0.
+  \] 
+  $C$ is bounded, so we can write
+  \begin{align*}
+    \Tot(C)_n =\bigoplus_{p+q=n}C_{pq}
+              &=\prod_{p+q=n}C_{pq}
+  \end{align*}
+  as a product.
+  In particular, we can write 
+  \[
+    f = \sum_{p+q=n}f_{pq}
+  \] 
+  for morphisms
+  \[
+    f_{pq}:E\to C_{pq}.
+  \] 
+  Then, for each $p+q=n$, the following diagram commutes and composes to 0.
+  \[
+    \begin{tikzcd}
+      &C_{pq}\ar[dr,"d^h"]\\
+      E\ar[ur,"f_{pq}"]\ar[dr,"f_{p+1,q-1}"']&&C_{p,q-1}\\%^{\oplus 2}\ar[r,"+"]&C_{p,q-1}\\
+      &C_{p+1,q-1}\ar[ur,"d^v"']
+    \end{tikzcd}
+  \] 
+  % Then, for each $p+q=n$, we have
+  % \[
+  %   d^hf_{pq}+d^vf_{p+1,q-1}=0.
+  % \] 
+  Suppose now that $f_{p+1,q-1}$ factors through $\im(d^h+d^v)$ as so:
+  \[
+    \begin{tikzcd}
+      &C_{p+1,q}\ar[dr,"d^h"]\\
+      E\ar[rr,"f_{p+1,q-1}"]\ar[ur,"g_{p+1,q}"]\ar[dr,"g_{p+2,q-1}"']&&\im(d^h+d^v)_{p+1,q-1}\ar[r,hook]&C_{p+1,q-1}\\
+      &C_{p+2,q-1}\ar[ur,"d^v"']
+    \end{tikzcd}
+  \] 
+  Then we have that
+  \begin{align*}
+    0 &= d^hf_{pq}+d^v f_{p+1,q-1} \\
+      &= d^hf_{pq}+d^v(d^hg_{p+1,q} + d^vg_{p+2,q-1}) \\
+      &= d^hf_{pq}+d^vd^hg_{p+1,q} \\
+      &= d^h(f_{pq}-d^vg_{p+1,q}),
+  \end{align*}
+  whence $f_{pq}-d^vg_{p+1,q}\in \ker d^h = \im d^h$ gives us $g_{p,q+1}:E\to C_{p,q+1}$ such that $f_{pq}$ factors through $\im(d^h+d^v)_{pq}$ as follows:%, with $g_{p+1,q}:E\to C_{p+1,q}$ as before:
+  \[
+    \begin{tikzcd}
+      &C_{p,q+1}\ar[dr,"d^h"]\\
+      E\ar[rr,"f_{pq}"]\ar[ur,"g_{p,q+1}"]\ar[dr,"g_{p+1,q}"']&&\im(d^h+d^v)_{pq}\ar[r,hook]&C_{pq}\\
+      &C_{p+1,q}\ar[ur,"d^v"']
+    \end{tikzcd}
+  \] 
+  Note that this factorization holds trivially if $C_{pq}=0$.
+  Then $C$ bounded supplies us with $q_0$ such that $C_{n-q,q}=0$ for all $q<q_0$, whence induction and the universal property of products give us a morphism
+  \[
+    g=\sum_{p+q=n+1}g_{pq}:E\to \Tot(C)_{n+1}
+  \]
+  such that
+  \[
+    \begin{tikzcd}
+      E\ar[dr,"d^hg+d^vg"']\ar[r,"f"]&\Tot(C)_n\ar[r,"d^h+d^v"]&\Tot(C)_{n-1}\\
+      &\im(d^h+d^v)\ar[u,hook]
+    \end{tikzcd}
+  \] 
+  commutes.
+  The map $d^hg+d^vg$ is unique since $\im(d^h+d^v)\inc \Tot(C)_n$ is a monomorphism, so $\im(d^h+d^v)\cong \ker(d^h+d^v)$ by uniqueness of the universal property of kernels.
+  We conclude that $\Tot(C)_n$ is acyclic, as desired.
+\end{proof}
+
+\begin{enumerate}
+	\item[1.3.x:] {
+    }
+\end{enumerate}
+
+\begin{proof}
+\end{proof}
+
+\end{document}

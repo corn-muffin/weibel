@@ -129,11 +129,62 @@
 \end{proof}
 
 \begin{enumerate}
-	\item[1.3.x:] {
+	\item[1.2.7:] {
+      Let $C$ be a complex. %, and define complexes $Z(C)$, $B(C)$, and $H(C)$ by $Z(C)_n:= \ker d_n$, $B(C)
+      Show that there are exact sequences of complexes:
+      \begin{equation}
+        \begin{tikzcd}
+          0\ar[r] & Z(C)\ar[r] & C\ar[r,"d"] & B(C)[-1]\ar[r] & 0
+        \end{tikzcd}
+      \end{equation}
+      \begin{equation}
+        \begin{tikzcd}
+          0\ar[r] & H(C)\ar[r,"\phi"] & C/B(C)\ar[r,"d"] & Z(C)[-1]\ar[r,"\psi"] & H(C)[-1]\ar[r] & 0
+        \end{tikzcd}
+      \end{equation}
     }
 \end{enumerate}
 
 \begin{proof}
+  Regard the differential as a map $d:C\to C[-1]$, so that $Z(C)=\ker d$ and $B(C)= \im d[1]$.
+  Then $\im d=(\im d[1])[-1]=B(C)[-1]$ gives us well definition and exactness of (1).
+
+  Consider now (2).
+  We can regard $H(C)=Z(C)/B(C)=\cok (B(C)\inc Z(C))$.
+  Now, we construct our map $\phi:H(C)\to C/B(C)$ by way of the following diagram:
+  \[
+    \begin{tikzcd}
+      B(C)\ar[r,hook] & Z(C)\ar[r,hook]\ar[d,twoheadrightarrow] & C\ar[d,twoheadrightarrow] \\
+                      & H(C) \ar[r, dotted, "\exists!\phi"] & C/B(C)
+    \end{tikzcd}
+  \] 
+  Next, we will show that $d:C/B(C)\to Z(C)[-1]$ is well-defined.
+  For this purpose, consider the following diagram:
+  \[
+    \begin{tikzcd}
+      B(C)\ar[r,hook] & C\ar[r,"d"] & C[-1]\ar[r,"d{[-1]}"] & C[-2] \\
+                      & C/B(C)\ar[u,twoheadrightarrow] \ar[ur,dotted]\ar[r,dotted,"d"'] & Z(C)[-1]\ar[u,hook]
+    \end{tikzcd}
+  \] 
+  By abuse of notation, we will refer to each of these maps as $d$.
+  The map $\psi:Z(C)[-1]\to H(C)[-1]$ is the cokernel of $B(C)[-1]\to Z(C)[-1]$, and thus epic.
+  We may now proceed to showing exactness!
+
+  We will show $\phi:H(C)\to C/B(C)$ is a monomorphism by showing it is the kernel of $d:C/B(C)\to Z(C)[-1]$.
+  Before doing so, we first note that $\im d=\ker \psi$.
+  Indeed, we have
+  \[
+    \begin{tikzcd}
+      C\ar[r,twoheadrightarrow] & C/B(C)\ar[r,"d"] & Z(C)[-1]\ar[d,twoheadrightarrow] \\
+                                && f
+    \end{tikzcd}
+  \] 
+  \begin{align*}
+    \ker \psi
+      &= B(C)[-1] \\
+      &= \im (d:C\to C[-1]) \\
+      &= \im (d:)
+  \end{align*}
 \end{proof}
 
 \end{document}

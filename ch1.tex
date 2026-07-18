@@ -18,8 +18,13 @@
 \input{./latex-preamble/cm-preamble.tex}
 
 \newcommand{\Tot}{\mb{Tot}}
+\newcommand{\B}{{\mathcal B}}
+\DeclareMathOperator{\coim}{coim}
 
-\newtheorem*{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{proposition}{Proposition}
 
 \begin{document}
 
@@ -29,7 +34,7 @@
 
 \begin{center}
 
-{\sc Chapter 1}
+{\sc Chapter 1 Problems}
 
 \end{center}
 
@@ -41,12 +46,13 @@
 
 \bigskip
 
-\begin{enumerate}
-	\item[1.2.5.] {
+The goal of these notes is to develop Chapter 1 of Weibel without appealing to the Freyd-Mitchell Embedding Theorem, and end by proving the result in as much gorey detail as possible.
+We begin with an exercise of a more computational flavor, which does not suffer much from this restriction.
+
+\begin{proposition}[Exc. 1.2.5, Weibel]
       Let $C$ be a bounded complex with acylic rows or acyclic columns. 
       Show that $\Tot(C)$ is acyclic.
-    }
-\end{enumerate}
+\end{proposition}
 
 \begin{proof}
   Without loss of generality, we suppose that $C$ has acyclic rows, i.e. $\ker d^h=\im d^h$.
@@ -92,7 +98,7 @@
   \[
     \begin{tikzcd}
       &C_{p+1,q}\ar[dr,"d^h"]\\
-      E\ar[rr,"f_{p+1,q-1}"]\ar[ur,"g_{p+1,q}"]\ar[dr,"g_{p+2,q-1}"']&&\im(d^h+d^v)_{p+1,q-1}\ar[r,hook]&C_{p+1,q-1}\\
+      E\ar[rr,"f_{p+1,q-1}"]\ar[ur,"g_{p+1,q}"]\ar[dr,"g_{p+2,q-1}"']&&\im(d^h+d^v)_{p+1,q-1}\ar[r,tail]&C_{p+1,q-1}\\
       &C_{p+2,q-1}\ar[ur,"d^v"']
     \end{tikzcd}
   \] 
@@ -107,7 +113,7 @@
   \[
     \begin{tikzcd}
       &C_{p,q+1}\ar[dr,"d^h"]\\
-      E\ar[rr,"f_{pq}"]\ar[ur,"g_{p,q+1}"]\ar[dr,"g_{p+1,q}"']&&\im(d^h+d^v)_{pq}\ar[r,hook]&C_{pq}\\
+      E\ar[rr,"f_{pq}"]\ar[ur,"g_{p,q+1}"]\ar[dr,"g_{p+1,q}"']&&\im(d^h+d^v)_{pq}\ar[r,tail]&C_{pq}\\
       &C_{p+1,q}\ar[ur,"d^v"']
     \end{tikzcd}
   \] 
@@ -120,7 +126,7 @@
   \[
     \begin{tikzcd}
       E\ar[dr,"d^hg+d^vg"']\ar[r,"f"]&\Tot(C)_n\ar[r,"d^h+d^v"]&\Tot(C)_{n-1}\\
-      &\im(d^h+d^v)\ar[u,hook]
+      &\im(d^h+d^v)\ar[u,tail]
     \end{tikzcd}
   \] 
   commutes.
@@ -128,22 +134,122 @@
   We conclude that $\Tot(C)_n$ is acyclic, as desired.
 \end{proof}
 
-\begin{enumerate}
-	\item[1.2.7:] {
-      Let $C$ be a complex. %, and define complexes $Z(C)$, $B(C)$, and $H(C)$ by $Z(C)_n:= \ker d_n$, $B(C)
-      Show that there are exact sequences of complexes:
-      \begin{equation}
+Before proceeding with Weibel, we wll first prove a series of basic results on additive and abelian categories from Jiantong Lie's lecture notes.
+Some of these lemmas may not prove strictly necessary to finish Weibel section 1.2, but will certainly serve us well in proving one of the most difficult obstacles in our journey: the \textit{Snake Lemma}.
+Referring to the Snake Lemma with such reverence may seem comical to those that have only gone through the module theoretic proof.
+However, it is not so easy to fell without appealing to the behemoth that is Freyd-Mitchell.
+
+\begin{lemma}[Lemma 1.2.7, Liu]
+  Consider a commutative square in an additive category $\A$:
+  \[
+    \begin{tikzcd}
+      A'\ar[r,"\alpha"]\ar[d,"f'"'] & A\ar[d,"f"] \\
+      B'\ar[r,"\beta"'] & B
+    \end{tikzcd}
+  \] 
+  \begin{enumerate}[label=(\alph*)]
+    \item Suppose the square is cartesian, and that $f$ has a kernel.
+      Then $\ker f$ is the kernel of $f'$:
+      \[
         \begin{tikzcd}
-          0\ar[r] & Z(C)\ar[r] & C\ar[r,"d"] & B(C)[-1]\ar[r] & 0
+          &\ker f\ar[dl,dotted,tail,"\exists!i'"']\ar[d,tail,"i"] \\
+          A'\ar[r,"\alpha"]\ar[d,"f'"'] \ar[dr,phantom, very near start, "\lrcorner"]& A\ar[d,"f"] \\
+          B'\ar[r,"\beta"'] & B
         \end{tikzcd}
-      \end{equation}
-      \begin{equation}
+      \] 
+    \item Suppose the square is cocartesian, and that $f'$ has a cokernel.
+      Then $\coker f'$ is the cokernel of $f$:
+      \[
         \begin{tikzcd}
-          0\ar[r] & H(C)\ar[r,"\phi"] & C/B(C)\ar[r,"d"] & Z(C)[-1]\ar[r,"\psi"] & H(C)[-1]\ar[r] & 0
+          A'\ar[r,"\alpha"]\ar[d,"f'"'] & A\ar[d,"f"] \\
+          B'\ar[r,"\beta"']\ar[d,twoheadrightarrow,"p'"'] & B\ar[dl,dotted,twoheadrightarrow,"\exists!p"]\ar[ul,phantom, very near start, "\ulcorner"] \\
+          \coker f
         \end{tikzcd}
-      \end{equation}
-    }
-\end{enumerate}
+      \] 
+  \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+  By symmetry, it suffices to show that (a).
+  First, we show uniqueness and existence of $i'$ via the following diagram:
+  \[
+    \begin{tikzcd}
+      \ker f\ar[ddr,bend right= 20,"0"']\ar[drr,bend left = 20,"i"]\ar[dr,dotted,"\exists!i'" description]&\\
+      &A'\ar[dr,phantom, very near start, "\lrcorner"] \ar[r,"\alpha"]\ar[d,"f'"'] & A\ar[d,"f"] \\
+      &B'\ar[r,"\beta"'] & B
+    \end{tikzcd}
+  \] 
+  Now, suppose $g':C'\to A'$ has $f'g'=0$.
+  Then $\alpha g':C'\to A$ has $f\alpha g' = \beta f'g'=0$, and thus factors through $\ker f$ as so:
+  \[
+    \begin{tikzcd}
+      C' \ar[r,dotted,"\exists!g"]\ar[d,"g'"']&\ker f\ar[dl,"i'"']\ar[d,tail,"i"] \\
+      A'\ar[r,"\alpha"]\ar[d,"f'"']\ar[dr,phantom, very near start, "\lrcorner"] & A\ar[d,"f"] \\
+      B'\ar[r,"\beta"'] & B
+    \end{tikzcd}
+  \] 
+  We wish to show that $g'=i'g$, and that $g$ is the unique morphism with that property.
+
+  Suppose $g'$ factors through $h:C'\to \ker f$.
+  That is, $g'=i'h$.
+  Recall that $\alpha i'=i$.
+  Then 
+  \[
+    \alpha g' = \alpha i' h = ih
+  \]
+  gives us $h=g$ by uniqueness of filling morphisms.
+  Recall as well that $f'i=0$, and $\alpha g'= ig$.
+  Hence,
+  \begin{align*}
+    \alpha i'g = ig&=\alpha g', \\
+    f'i'g = \,0\, &= f'g'
+  \end{align*}
+  gives us commutativity of the following diagram:
+  \[
+    \begin{tikzcd}
+      C'\ar[ddr,bend right= 30,"0"']\ar[drr,bend left = 30,"ig"]\ar[dr,shift right,"i'g"']\ar[dr,shift left, "g'"]&\\
+      &A'\ar[dr,phantom, very near start, "\lrcorner"] \ar[r,"\alpha"]\ar[d,"f'"'] & A\ar[d,"f"] \\
+      &B'\ar[r,"\beta"'] & B
+    \end{tikzcd}
+  \] 
+  It follows that $g'=i'g$ by uniqueness of the filling morphisms.
+  We conclude that $i':\ker f\inj A'$ is a kernel of $f'$, as desired.
+\end{proof}
+
+\begin{lemma}
+  Let $\A$ be an additive category which admits kernels and cokernels, and let $f:A\to B$ a morphism.
+  We have a natural diagram
+  \[
+    \begin{tikzcd}
+      \ker f\ar[r,tail,"i"] & A\ar[d,twoheadrightarrow,"q"']\ar[r,"f"]
+                            & B\ar[r,twoheadrightarrow, "p"] & \coker f \\
+                            & \coker i\ar[r,dotted, "\exists! \ol f"] & \ker p\ar[u,tail,"j"']
+    \end{tikzcd}
+  \] 
+  We denote $\im f:= \ker p$ and $\coim f:= \coker i$.
+  Show that $\A$ is an abelian category (in the sense of Weibel) if and only if $\ol f:\coim f\iso \im f$ is an isomorphism for all $f$.
+\end{lemma}
+
+\begin{proof}
+  Suppose first that $\A$ is an abelian category in the sense of Weibel.
+  That is, ever monic is naturally isomorphic to the kernel of its cokernel, and every epic is naturally isomorphic to the cokernel of its kernel.
+  Then
+\end{proof}
+
+\begin{proposition}[Exc. 1.2.7, Weibel]
+  Let $C$ be a complex. %, and define complexes $Z(C)$, $B(C)$, and $H(C)$ by $Z(C)_n:= \ker d_n$, $B(C)
+  Show that there are exact sequences of complexes:
+  \begin{equation}
+    \begin{tikzcd}
+      0\ar[r] & Z(C)\ar[r] & C\ar[r,"d"] & B(C)[-1]\ar[r] & 0
+    \end{tikzcd}
+  \end{equation}
+  \begin{equation}
+    \begin{tikzcd}
+      0\ar[r] & H(C)\ar[r,"\phi"] & C/B(C)\ar[r,"d"] & Z(C)[-1]\ar[r,"\psi"] & H(C)[-1]\ar[r] & 0
+    \end{tikzcd}
+  \end{equation}
+\end{proposition}
 
 \begin{proof}
   Regard the differential as a map $d:C\to C[-1]$, so that $Z(C)=\ker d$ and $B(C)= \im d[1]$.
@@ -154,7 +260,7 @@
   Now, we construct our map $\phi:H(C)\to C/B(C)$ by way of the following diagram:
   \[
     \begin{tikzcd}
-      B(C)\ar[r,hook] & Z(C)\ar[r,hook]\ar[d,twoheadrightarrow] & C\ar[d,twoheadrightarrow] \\
+      B(C)\ar[r,tail] & Z(C)\ar[r,tail]\ar[d,twoheadrightarrow] & C\ar[d,twoheadrightarrow] \\
                       & H(C) \ar[r, dotted, "\exists!\phi"] & C/B(C)
     \end{tikzcd}
   \] 
@@ -162,8 +268,8 @@
   For this purpose, consider the following diagram:
   \[
     \begin{tikzcd}
-      B(C)\ar[r,hook] & C\ar[r,"d"] & C[-1]\ar[r,"d{[-1]}"] & C[-2] \\
-                      & C/B(C)\ar[u,twoheadrightarrow] \ar[ur,dotted]\ar[r,dotted,"d"'] & Z(C)[-1]\ar[u,hook]
+      B(C)\ar[r,tail] & C\ar[r,"d"] & C[-1]\ar[r,"d{[-1]}"] & C[-2] \\
+                      & C/B(C)\ar[u,twoheadrightarrow] \ar[ur,dotted]\ar[r,dotted,"d"'] & Z(C)[-1]\ar[u,tail]
     \end{tikzcd}
   \] 
   By abuse of notation, we will refer to each of these maps as $d$.

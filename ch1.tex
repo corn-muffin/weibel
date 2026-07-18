@@ -218,7 +218,7 @@ However, it is not so easy to fell without appealing to the behemoth that is Fre
 
 \begin{lemma}
   Let $\A$ be an additive category which admits kernels and cokernels, and let $f:A\to B$ a morphism.
-  We have a natural diagram
+  First, construct a unique morphism $\ol f$ such that the following diagram commutes:
   \[
     \begin{tikzcd}
       \ker f\ar[r,tail,"i"] & A\ar[d,twoheadrightarrow,"q"']\ar[r,"f"]
@@ -231,8 +231,44 @@ However, it is not so easy to fell without appealing to the behemoth that is Fre
 \end{lemma}
 
 \begin{proof}
-  Suppose first that $\A$ is an abelian category in the sense of Weibel.
-  That is, ever monic is naturally isomorphic to the kernel of its cokernel, and every epic is naturally isomorphic to the cokernel of its kernel.
+  We have $pf=0$, whence we receive a unique map $f':A\to \ker p$ such that the following diagram commutes.
+  Then $pfi = 0$ implies $fi$ factors through $j$ uniquely, so
+  \[
+    fi=jf'i=j0
+  \] 
+  gives us $f'i=0$.
+  Thus, $f'$ factors uniquely through $\coker i$ as $f'=\ol fq$.
+  Hence, 
+  \[
+    j\ol fq= jf'=f
+  \]
+  tells us that the diagram below commutes:
+  \[
+    \begin{tikzcd}
+      \ker f\ar[r,tail,"i"]\ar[drr,dotted,"\exists!"',near start]
+      & A\ar[d,twoheadrightarrow,"q"', crossing over]\ar[r,"f"]\ar[dr,dotted,"\exists!f'" description]
+                            & B\ar[r,twoheadrightarrow, "p"] & \coker f \\
+                            & \coker i\ar[r,dotted,"\exists!\ol f"'] & \ker p\ar[u,tail,"j"']
+    \end{tikzcd}
+  \] 
+
+  If $g:\coker i\to \ker p$ were another map with $jgq=f$, then $gq=f'$ by uniqueness of $jf'=f$, so that $g=\ol f"$ by uniqueness of $\ol f q = f'$.
+  We conclude that the filling map $\ol f:\coker i\to \ker p$ is in fact unique, as desired.
+
+  ($\impliedby$) Note that $\ker(A\to 0)=A$ and $\coker(0\to A)=A$.
+  Recall as well that $\ker (A\inj B)=0$ and $\coker(A\surj B)=0$.
+  Then, if $i:A\inj B$ is monic, the following diagram gives us a canonical isomorphism $\ol i:A\iso\im i$ given by the following diagram:
+  \[
+    \begin{tikzcd}
+      0\ar[r] & A\ar[r,"i"]\ar[dr,dotted, "\exists!\ol i"']
+                            & B\ar[r,twoheadrightarrow, "p"] & \coker i \\
+                            && \im i\ar[u,tail,"j"']
+    \end{tikzcd}
+  \] 
+  For $p:A\to B$ an epimorphism, we similarly receive a canonical isomorphism $p:A\iso \coim p$.
+
+  ($\implies$) Suppose now that $\A$ is an abelian category in the sense of Weibel.
+  That is, ever monic is canonically isomorphic to the kernel of its cokernel, and every epic is canonically isomorphic to the cokernel of its kernel.
   Then
 \end{proof}
 

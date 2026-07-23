@@ -22,13 +22,16 @@
 \DeclareMathOperator{\coim}{coim}
 
 \theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem*{lemma*}{Lemma}
 \newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
 
 \begin{document}
 
-{Weibel, \textit{An introduction to homological algebra}} \hfill {7-15-2026}
+{Weibel, \textit{An Introduction To Homological Algebra}} \hfill {7-15-2026}
 
 \bigskip\bigskip
 
@@ -139,6 +142,7 @@ Some of these lemmas may not prove strictly necessary to finish Weibel section 1
 Referring to the Snake Lemma with such reverence may seem comical to those that have only gone through the module theoretic proof.
 However, it is not so easy to fell without appealing to the behemoth that is Freyd-Mitchell.
 
+
 \begin{lemma}[Lemma 1.2.7, Liu]
   Consider a commutative square in an additive category $\A$:
   \[
@@ -158,12 +162,12 @@ However, it is not so easy to fell without appealing to the behemoth that is Fre
         \end{tikzcd}
       \] 
     \item Suppose the square is cocartesian, and that $f'$ has a cokernel.
-      Then $\coker f'$ is the cokernel of $f$:
+      Then $\cok f'$ is the cokernel of $f$:
       \[
         \begin{tikzcd}
           A'\ar[r,"\alpha"]\ar[d,"f'"'] & A\ar[d,"f"] \\
           B'\ar[r,"\beta"']\ar[d,twoheadrightarrow,"p'"'] & B\ar[dl,dotted,twoheadrightarrow,"\exists!p"]\ar[ul,phantom, very near start, "\ulcorner"] \\
-          \coker f
+          \cok f
         \end{tikzcd}
       \] 
   \end{enumerate}
@@ -216,19 +220,118 @@ However, it is not so easy to fell without appealing to the behemoth that is Fre
   We conclude that $i':\ker f\inj A'$ is a kernel of $f'$, as desired.
 \end{proof}
 
+Now, we will show the equivalence of Weibel's definition of an abelian category to the stronger definition given in Liu.
+We will proceed via a series of lemmas.
+Whenever we refer to an abelian category, it is in the sense of Weibel.
+
 \begin{lemma}
+  \label{lemma:pullbacks exist}
+  Pullbacks and Pushforwards exist in an Abelian category.
+\end{lemma}
+
+\begin{proof}
+  We prove the result for pullbacks.
+  Consider the following diagram:
+  \[
+    \begin{tikzcd}
+      &A\ar[d,"f"] \\
+      A\ar[r,"f'"'] & B
+    \end{tikzcd}
+  \] 
+  Then we have a map $f-f':A\oplus A'\to B$ such that, for any map $(g,g'):C\to A\oplus A'$, $(f-f')(g,g')=0$ if and only if the following diagram commutes:
+  \[
+    \begin{tikzcd}
+      C\ar[d,"g'"']\ar[r,"g"]&A\ar[d,"f"] \\
+      A'\ar[r,"f'"'] & B
+    \end{tikzcd}
+  \] 
+  Hence, the following square is cartesian, where $(i,i'):K\to A\oplus A'$ is the kernel of $f-f'$:
+  \[
+    \begin{tikzcd}
+      K\ar[d,"i'"']\ar[r,"i"]\ar[dr,phantom,very near start, "\lrcorner"]&A\ar[d,"f"] \\
+      A'\ar[r,"f'"'] & B
+    \end{tikzcd}
+  \] 
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:epic equalizer}
+  Let $f,g:A\rightrightarrows B$ be morphisms in a category $\cC$ with equalizer $e:E\to A$.
+  If $e$ is epic, then it is an isomorphim.
+\end{lemma}
+
+\begin{proof}
+  
+\end{proof}
+
+\begin{remark}
+  An elementary proof is not difficult, but we feel that this method is slightly slicker.
+\end{remark}
+
+\begin{corollary}
+  \label{corollary:iso is monic epic}
+  Let $\A$ be an abelian category.
+  A map $f:A\to B$ in $\A$ which is both monic and epic is an isomorphism.
+\end{corollary}
+
+  \begin{lemma}
+    \label{lemma:monic is trivial kernel}
+    Let $f:A\to B$ be a morphism in an abelian category $\A$.
+    Then the following are equivalent:
+    \begin{enumerate}[label = (\alph*)]
+      \item $f$ is monic;
+      \item $\ker f=0$;
+      \item $\coim f= A$.
+    \end{enumerate}
+    Dually, the following are equivalent:
+    \begin{enumerate}[label = (\alph*')]
+      \item $f$ is epic;
+      \item $\cok f=0$;
+      \item $\im f = B$.
+    \end{enumerate}
+  \end{lemma}
+
+  \begin{proof}
+    We prove only the first set of implications.
+
+    (a$\implies$b) If $fg = 0$, then $g=0$ factors uniquely through the inclusion $0\to A$.
+
+    (b$\implies$c) Let $g:A\to C$ be a morphism.
+    \[
+      \begin{tikzcd}
+        \ker f\ar[r,tail] & A\ar[r,"f"]\ar[d,twoheadrightarrow]&B \\
+                          &\coim f
+      \end{tikzcd}
+    \] 
+
+    (c$\implies$a) Let $g:C\to A$ be a map such that $fg=0$.
+    Then we have
+    \[
+      \begin{tikzcd}
+        C\ar[r,"g"] & A\ar[r,"f"]\ar[d,twoheadrightarrow]&B \\
+                          &\cok g
+      \end{tikzcd}
+    \] 
+  \end{proof}
+
+\begin{proof}
+  Since $\A$ is abelian and $f$ is monic, $f=\ker(p:B\to \cok f)$ is an equalizer of $p,0:B\rightrightarrows\cok f$.
+  $f$ is epic, so Lemma \ref{lemma:epic equalizer} gives us that $f$ is indeed an isomorphism.
+\end{proof}
+
+\begin{theorem}[Epi-mono Factorization]
   Let $\A$ be an additive category which admits kernels and cokernels, and let $f:A\to B$ a morphism.
   First, construct a unique morphism $\ol f$ such that the following diagram commutes:
   \[
     \begin{tikzcd}
       \ker f\ar[r,tail,"i"] & A\ar[d,twoheadrightarrow,"q"']\ar[r,"f"]
-                            & B\ar[r,twoheadrightarrow, "p"] & \coker f \\
-                            & \coker i\ar[r,dotted, "\exists! \ol f"] & \ker p\ar[u,tail,"j"']
+                            & B\ar[r,twoheadrightarrow, "p"] & \cok f \\
+                            & \cok i\ar[r,dotted, "\exists! \ol f"] & \ker p\ar[u,tail,"j"']
     \end{tikzcd}
   \] 
-  We denote $\im f:= \ker p$ and $\coim f:= \coker i$.
-  Show that $\A$ is an abelian category (in the sense of Weibel) if and only if $\ol f:\coim f\iso \im f$ is an isomorphism for all $f$.
-\end{lemma}
+  We denote $\im f:= \ker p$ and $\coim f:= \cok i$.
+  Show that $\A$ is an abelian category if and only if $\ol f:\coim f\iso \im f$ is an isomorphism for all $f$.
+\end{theorem}
 
 \begin{proof}
   We have $pf=0$, whence we receive a unique map $f':A\to \ker p$ such that the following diagram commutes.
@@ -237,7 +340,7 @@ However, it is not so easy to fell without appealing to the behemoth that is Fre
     fi=jf'i=j0
   \] 
   gives us $f'i=0$.
-  Thus, $f'$ factors uniquely through $\coker i$ as $f'=\ol fq$.
+  Thus, $f'$ factors uniquely through $\cok i$ as $f'=\ol fq$.
   Hence, 
   \[
     j\ol fq= jf'=f
@@ -247,29 +350,47 @@ However, it is not so easy to fell without appealing to the behemoth that is Fre
     \begin{tikzcd}
       \ker f\ar[r,tail,"i"]\ar[drr,dotted,"\exists!"',near start]
       & A\ar[d,twoheadrightarrow,"q"', crossing over]\ar[r,"f"]\ar[dr,dotted,"\exists!f'" description]
-                            & B\ar[r,twoheadrightarrow, "p"] & \coker f \\
-                            & \coker i\ar[r,dotted,"\exists!\ol f"'] & \ker p\ar[u,tail,"j"']
+                            & B\ar[r,twoheadrightarrow, "p"] & \cok f \\
+                            & \cok i\ar[r,dotted,"\exists!\ol f"'] & \ker p\ar[u,tail,"j"']
     \end{tikzcd}
   \] 
 
-  If $g:\coker i\to \ker p$ were another map with $jgq=f$, then $gq=f'$ by uniqueness of $jf'=f$, so that $g=\ol f"$ by uniqueness of $\ol f q = f'$.
-  We conclude that the filling map $\ol f:\coker i\to \ker p$ is in fact unique, as desired.
+  If $g:\cok i\to \ker p$ were another map with $jgq=f$, then $gq=f'$ by uniqueness of $jf'=f$, so that $g=\ol f"$ by uniqueness of $\ol f q = f'$.
+  We conclude that the filling map $\ol f:\cok i\to \ker p$ is in fact unique, as desired.
 
-  ($\impliedby$) Note that $\ker(A\to 0)=A$ and $\coker(0\to A)=A$.
-  Recall as well that $\ker (A\inj B)=0$ and $\coker(A\surj B)=0$.
-  Then, if $i:A\inj B$ is monic, the following diagram gives us a canonical isomorphism $\ol i:A\iso\im i$ given by the following diagram:
+  ($\impliedby$) We show the monic case, as the epic case is analogous.
+  Fix $i:A\inj B$ monic, so that Lemma \ref{lemma:monic is trivial kernel} gives us $\ker i=0$.
+  Noting that $\cok(0\to A)=A$, we have a canonical isomorphism $\ol i:A\iso\im i$ given by the following diagram:
   \[
     \begin{tikzcd}
       0\ar[r] & A\ar[r,"i"]\ar[dr,dotted, "\exists!\ol i"']
-                            & B\ar[r,twoheadrightarrow, "p"] & \coker i \\
+                            & B\ar[r,twoheadrightarrow, "p"] & \cok i \\
                             && \im i\ar[u,tail,"j"']
     \end{tikzcd}
   \] 
-  For $p:A\to B$ an epimorphism, we similarly receive a canonical isomorphism $p:A\iso \coim p$.
 
-  ($\implies$) Suppose now that $\A$ is an abelian category in the sense of Weibel.
-  That is, ever monic is canonically isomorphic to the kernel of its cokernel, and every epic is canonically isomorphic to the cokernel of its kernel.
-  Then
+  ($\implies$) Suppose now that $\A$ is an abelian category.
+  We wish to show that $\ol f$ is both monic and epic, and hence an isomorphim by Corollary \ref{corollary:iso is monic epic}.
+  By duality, it suffices to prove that $\ol f$ is monic.
+
+  Consider the following diagram:
+  \[
+    \begin{tikzcd}
+      \ker f\ar[r,tail,"i"]\ar[d,dotted,"\exists!q"'] & A\ar[d,twoheadrightarrow,"p"]\ar[r,"f"]
+                            & B\\%\ar[r,twoheadrightarrow, "p"] & \cok f \\
+      \ker \ol f\ar[r,tail,"j"']& \coim f\ar[r, "\ol f"'] & \im f\ar[u,tail,]
+    \end{tikzcd}
+  \] 
+  By Lemma \ref{lemma:monic is trivial kernel}, it suffices to show that $\ker \ol f=0$.
+  Lemma \ref{lemma:pullbacks exist} gives us a pullback $(P,g,h)$ and a unique morphism $k:P\to \ker f$ such that the following diagram commutes:
+  \[
+    \begin{tikzcd}
+      P\ar[ddr,bend right =20, "h"']\ar[drr,bend left = 20, "g"]\ar[dr,dotted,"k"]\\
+      &\ker f\ar[r,tail,"i"]\ar[d,dotted,"q"'] & A\ar[d,twoheadrightarrow,"p"]\ar[r,"f"]
+                            & B\\%\ar[r,twoheadrightarrow, "p"] & \cok f \\
+      &\ker \ol f\ar[r,tail,"j"']& \coim f\ar[r, "\ol f"'] & \im f\ar[u,tail,]
+    \end{tikzcd}
+  \] 
 \end{proof}
 
 \begin{proposition}[Exc. 1.2.7, Weibel]
